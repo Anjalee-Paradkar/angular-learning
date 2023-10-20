@@ -1,0 +1,77 @@
+<div class="registration-form"> 
+  <h4 class="registration-form-title"> Registration Form </h4>
+  <!-- {{registrationForm.value | json}} -->
+  
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration-details-form"> 
+    <div class="form-group"> 
+      <label> UserName :</label>
+      <input formControlName="userName" type="text" class="form-control" name="userName" [class.is-invalid]="registrationForm.get('userName')?.invalid && registrationForm.get('userName')?.touched"> 
+      <!-- <small [class.d-none]="registrationForm.get('userName')?.valid || registrationForm.get('userName')?.untouched" class="text-danger"> name is required </small> -->
+
+      <ng-container *ngIf="userN?.invalid && registrationForm.get('userName')?.touched">
+        <small *ngIf="userN?.errors?.['required']" class="text-danger"> name is required</small>
+        <small *ngIf="userN?.errors?.['minlength']" class="text-danger"> minimum length should be 3</small>
+      </ng-container>
+    </div>
+
+    <div class="form-group"> 
+      <label> Password :</label>
+      <input formControlName="password" type="password" class="form-control" name="password">
+      <small [class.d-none]="registrationForm.get('password')?.valid || registrationForm.get('password')?.untouched" class="text-danger"> password is required </small> 
+    </div>
+
+    <div class="form-group"> 
+      <label> Confirm Password :</label>
+      <input [class.is-invalid]="registrationForm.errors?.['misMatch']" formControlName="confirmPassword" type="password" class="form-control" name="confirmPassword"> 
+      <small *ngIf="registrationForm.errors?.['misMatch']" class="text-danger"> Password do not match </small>
+    </div>
+
+    <div class="form-group state-select"> 
+      <label> State :</label>
+      <select formControlName="state" name="state" (change)="changeCountry($event.target)" class="select"> 
+          <option selected > Select your state </option>
+          <option *ngFor="let topic of data"> {{topic.StateName}} </option>
+        </select>
+      <!-- <input  formControlName="state" type="text" class="form-control" >  -->
+    </div>
+
+
+    <div class="form-group state-select"> 
+        <label> City :</label>
+        <select  formControlName="city" name="city" class="select" > 
+          <option selected > Select your City </option>
+          <option *ngFor="let topic of cities"> {{topic}} </option>
+        </select>
+        <!-- <input  formControlName="city" type="text" class="form-control" >  -->
+    </div>
+
+
+        <div class="form-group"> 
+          <label> Postal code :</label>
+          <input  formControlName="postalcode" type="text" class="form-control" > 
+          <!-- <small *ngIf="registrationForm.controls.address.errors?.['pattern']" class="text-danger"> pin should be 6 digits </small> -->
+          
+          <ng-container *ngIf="registrationForm.get('postalcode')?.invalid && registrationForm.get('postalcode')?.touched">
+            <small *ngIf="registrationForm.get('postalcode')?.errors?.['minlength']" class="text-danger"> pin should be 6 digits</small>
+            <small *ngIf="registrationForm.get('postalcode')?.errors?.['maxlength']" class="text-danger"> pin should be 6 digits</small>
+          </ng-container>
+        </div>
+<!-- 
+      <div class="form-group"> 
+        <label> Email: </label>
+        <input type="text" class="form-control" >
+      </div>
+
+      <div > 
+        <input type="checkbox">
+        <label> subscribe to email </label>
+      </div> -->
+    
+    <div> 
+      <button [disabled]="registrationForm.invalid"  type="submit" class="btn btn-primary"> Register </button>
+      <button (click)="loadAPI()" type="click" class="btn btn-secondary ml-4" > load API </button>
+    </div>
+   
+  </form>
+
+</div>
